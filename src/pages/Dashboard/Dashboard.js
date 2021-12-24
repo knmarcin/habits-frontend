@@ -5,6 +5,7 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [effect, setEffect] = useState(1);
   const { token } = useToken();
+
   const [postData, setPostData] = useState({
     habit: 1,
     accomplished: "2023-12-22",
@@ -21,8 +22,6 @@ const Dashboard = () => {
         ...postData,
       }),
     }).then((response) => {
-      console.log(postData.accomplished);
-      console.log(response.statusText);
       if (response.ok) setEffect((effect) => effect + 1);
     });
   }, [postData, token]);
@@ -54,7 +53,7 @@ const Dashboard = () => {
         return (
           <div key={item.id}>
             <h1>
-              {item.name} {item.created_at}{" "}
+              {item.name}
               <button
                 value={item.id}
                 onClick={(e) => {
