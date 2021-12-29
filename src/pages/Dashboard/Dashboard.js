@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import useToken from "../../auth/useToken";
+import AddHabitButton from "./AddHabitButton";
+import Button from "react-bootstrap/Button";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
@@ -83,6 +85,25 @@ const Dashboard = () => {
         return (
           <div key={item.id} style={{ marginBottom: "10px" }}>
             <b>{item.name}</b>
+            <Button
+              variant="danger"
+              onClick={(e) => {
+                fetch(`http://127.0.0.1:8000/habits/${item.id}/`, {
+                  method: "DELETE",
+                  mode: "cors",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                  },
+                }).then((response) => {
+                  if (response.ok) {
+                    setEffect((effect) => effect + 1);
+                  }
+                });
+              }}
+            >
+              Delete
+            </Button>
             {elements.map((index) => {
               var nextDay = new Date(date - index * 86400000);
               var filtered_days = days
@@ -122,6 +143,7 @@ const Dashboard = () => {
           </div>
         );
       })}
+      <AddHabitButton />
     </>
   );
 };
