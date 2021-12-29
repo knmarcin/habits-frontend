@@ -15,7 +15,7 @@ const Dashboard = () => {
     accomplished: "2023-12-22",
   });
 
-  const elements = [0, 1, 2, 3, 4, 5, 6];
+  const elements = [6, 5, 4, 3, 2, 1, 0];
   const date = new Date();
 
   useEffect(() => {
@@ -80,70 +80,130 @@ const Dashboard = () => {
   return (
     <>
       <h1>Your Last 7 Days </h1>
-
-      {data.map((item) => {
-        return (
-          <div key={item.id} style={{ marginBottom: "10px" }}>
-            <b>{item.name}</b>
-            <Button
-              variant="danger"
-              onClick={(e) => {
-                fetch(`http://127.0.0.1:8000/habits/${item.id}/`, {
-                  method: "DELETE",
-                  mode: "cors",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + token,
-                  },
-                }).then((response) => {
-                  if (response.ok) {
-                    setEffect((effect) => effect + 1);
-                  }
-                });
-              }}
-            >
-              Delete
-            </Button>
-            {elements.map((index) => {
-              var nextDay = new Date(date - index * 86400000);
-              var filtered_days = days
-                .filter(
-                  (x) =>
-                    x.accomplished ===
-                    `${nextDay.getFullYear()}-${
-                      nextDay.getMonth() + 1
-                    }-${nextDay.getDate()}`
-                )
-                .filter((x) => x.habit === item.id).length;
-
-              return (
-                <div>
-                  {`${nextDay.getFullYear()}-${
-                    nextDay.getMonth() + 1
-                  }-${nextDay.getDate()}`}
-                  <button
-                    value={item.id}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setPostData({
-                        ...postData,
-                        habit: item.id,
-                        accomplished: `${nextDay.getFullYear()}-${
-                          nextDay.getMonth() + 1
-                        }-${nextDay.getDate()}`,
-                      });
-                    }}
-                  >
-                    {filtered_days === 0 ? <>Complete</> : <>Uncomplete</>}{" "}
-                  </button>
+      <div
+        style={{ marginBottom: "40px", marginLeft: "15px", textAlign: "left" }}
+      >
+        <AddHabitButton />
+      </div>
+      <table>
+        {data.map((item) => {
+          return (
+            <div key={item.id}>
+              <thead>
+                <div
+                  style={{
+                    display: "inline-block",
+                  }}
+                >
+                  <tr>
+                    <td style={{ width: "100px", textAlign: "center" }}>
+                      {item.name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ textAlign: "center" }}>
+                      <Button
+                        variant="danger"
+                        onClick={(e) => {
+                          fetch(`http://127.0.0.1:8000/habits/${item.id}/`, {
+                            method: "DELETE",
+                            mode: "cors",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Authorization: "Bearer " + token,
+                            },
+                          }).then((response) => {
+                            if (response.ok) {
+                              setEffect((effect) => effect + 1);
+                            }
+                          });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
                 </div>
-              );
-            })}
-            Total: <b>{item.count}</b>
-          </div>
-        );
-      })}
-      <AddHabitButton />
+                {elements.map((index) => {
+                  var nextDay = new Date(date - index * 86400000);
+                  var filtered_days = days
+                    .filter(
+                      (x) =>
+                        x.accomplished ===
+                        `${nextDay.getFullYear()}-${
+                          nextDay.getMonth() + 1
+                        }-${nextDay.getDate()}`
+                    )
+                    .filter((x) => x.habit === item.id).length;
+
+                  return (
+                    <div
+                      style={{
+                        display: "inline-block",
+                      }}
+                    >
+                      <tr>
+                        <td>{`${nextDay.getDate()}`}</td>
+                      </tr>
+                      <tr>
+                        <td style={{ textAlign: "center" }}>
+                          {filtered_days === 0 ? (
+                            <>
+                              <Button
+                                style={{ width: "50px" }}
+                                value={item.id}
+                                variant="secondary"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setPostData({
+                                    ...postData,
+                                    habit: item.id,
+                                    accomplished: `${nextDay.getFullYear()}-${
+                                      nextDay.getMonth() + 1
+                                    }-${nextDay.getDate()}`,
+                                  });
+                                }}
+                              >
+                                &#9587;
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                style={{ width: "50px" }}
+                                variant="success"
+                                value={item.id}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setPostData({
+                                    ...postData,
+                                    habit: item.id,
+                                    accomplished: `${nextDay.getFullYear()}-${
+                                      nextDay.getMonth() + 1
+                                    }-${nextDay.getDate()}`,
+                                  });
+                                }}
+                              >
+                                &#10003;
+                              </Button>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    </div>
+                  );
+                })}
+
+                <div
+                  style={{
+                    display: "inline-block",
+                  }}
+                ></div>
+              </thead>
+            </div>
+          );
+        })}
+      </table>
     </>
   );
 };

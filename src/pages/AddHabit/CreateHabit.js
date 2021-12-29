@@ -1,11 +1,9 @@
 import Form from "react-bootstrap/Form";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+
 import Button from "react-bootstrap/Button";
 import useToken from "../../auth/useToken";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const CreateHabit = () => {
   const [name, setName] = useState("");
@@ -40,7 +38,7 @@ const CreateHabit = () => {
               }),
             }).then((response) => {
               if (response.ok) {
-                console.log("okidoki");
+                document.location.href = "/dashboard";
               }
             });
           }}
