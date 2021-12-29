@@ -28,7 +28,10 @@ const Dashboard = () => {
         ...postData,
       }),
     }).then((response) => {
-      if (response.ok) setEffect((effect) => effect + 1);
+      if (response.ok) {
+        setEffect((effect) => effect + 1);
+        setPostData({ ...postData, habit: -1 });
+      }
     });
   }, [postData, token]);
 
@@ -78,46 +81,44 @@ const Dashboard = () => {
 
       {data.map((item) => {
         return (
-          <div key={item.id}>
-            <h1>
-              {item.name} {item.id}
-              {elements.map((index) => {
-                var nextDay = new Date(date - index * 86400000);
-                var filtered_days = days
-                  .filter(
-                    (x) =>
-                      x.accomplished ===
-                      `${nextDay.getFullYear()}-${
-                        nextDay.getMonth() + 1
-                      }-${nextDay.getDate()}`
-                  )
-                  .filter((x) => x.habit === item.id).length;
-
-                return (
-                  <div>
-                    {`${nextDay.getFullYear()}-${
+          <div key={item.id} style={{ marginBottom: "10px" }}>
+            <b>{item.name}</b>
+            {elements.map((index) => {
+              var nextDay = new Date(date - index * 86400000);
+              var filtered_days = days
+                .filter(
+                  (x) =>
+                    x.accomplished ===
+                    `${nextDay.getFullYear()}-${
                       nextDay.getMonth() + 1
-                    }-${nextDay.getDate()}`}
-                    <button
-                      value={item.id}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setPostData({
-                          ...postData,
-                          habit: item.id,
-                          accomplished: `${nextDay.getFullYear()}-${
-                            nextDay.getMonth() + 1
-                          }-${nextDay.getDate()}`,
-                        });
-                      }}
-                    >
-                      {filtered_days === 0 ? <>Complete</> : <>Uncomplete</>}{" "}
-                    </button>
-                  </div>
-                );
-              })}
-              Total: {item.count}
-            </h1>
+                    }-${nextDay.getDate()}`
+                )
+                .filter((x) => x.habit === item.id).length;
+
+              return (
+                <div>
+                  {`${nextDay.getFullYear()}-${
+                    nextDay.getMonth() + 1
+                  }-${nextDay.getDate()}`}
+                  <button
+                    value={item.id}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPostData({
+                        ...postData,
+                        habit: item.id,
+                        accomplished: `${nextDay.getFullYear()}-${
+                          nextDay.getMonth() + 1
+                        }-${nextDay.getDate()}`,
+                      });
+                    }}
+                  >
+                    {filtered_days === 0 ? <>Complete</> : <>Uncomplete</>}{" "}
+                  </button>
+                </div>
+              );
+            })}
+            Total: <b>{item.count}</b>
           </div>
         );
       })}
