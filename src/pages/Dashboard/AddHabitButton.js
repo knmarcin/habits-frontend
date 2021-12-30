@@ -1,9 +1,10 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 const AddHabitButton = () => {
   return (
-    <div>
+    <Container>
       <Button
         variant="primary"
         onClick={(e) => {
@@ -12,7 +13,7 @@ const AddHabitButton = () => {
       >
         Add habbit
       </Button>
-    </div>
+    </Container>
   );
 };
 

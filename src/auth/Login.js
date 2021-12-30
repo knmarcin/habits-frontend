@@ -45,19 +45,14 @@ export default function Login({ setToken }) {
   };
 
   return (
-    <Container fluid="md" style={{ textAlign: "center" }}>
-      <Col
-        style={{ marginTop: "20vh" }}
-        md={{ span: 6, offset: 3 }}
-        lg={{ span: 4, offset: 4 }}
-        sm={{ span: 8, offset: 2 }}
-        xs={{ span: 10, offset: 1 }}
-      >
+    <Container fluid="md">
+      <Col md={{ span: "6", offset: "3" }}>
         <Form
           onSubmit={handleSubmit}
           style={{
-            padding: "20px",
+            marginTop: "20px",
             border: "1px solid lightgray",
+            padding: "10px",
             borderRadius: "15px",
           }}
         >

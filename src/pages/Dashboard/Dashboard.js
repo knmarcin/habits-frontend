@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useToken from "../../auth/useToken";
 import AddHabitButton from "./AddHabitButton";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
@@ -78,10 +79,12 @@ const Dashboard = () => {
   }, [token, effect]);
 
   return (
-    <>
-      <h1>Your Last 7 Days </h1>
+    <Container>
+      <h1 style={{ textAlign: "center", marginTop: "20px" }}>
+        Your Last 7 Days{" "}
+      </h1>
       <div
-        style={{ marginBottom: "40px", marginLeft: "15px", textAlign: "left" }}
+        style={{ marginBottom: "40px", marginLeft: "15px", textAlign: "right" }}
       >
         <AddHabitButton />
       </div>
@@ -138,6 +141,7 @@ const Dashboard = () => {
 
                   return (
                     <div
+                      key={index.id}
                       style={{
                         display: "inline-block",
                       }}
@@ -204,7 +208,7 @@ const Dashboard = () => {
           );
         })}
       </table>
-    </>
+    </Container>
   );
 };
 
