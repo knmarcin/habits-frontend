@@ -129,14 +129,25 @@ const Dashboard = () => {
                 </div>
                 {elements.map((index) => {
                   var nextDay = new Date(date - index * 86400000);
+
                   var filtered_days = days
-                    .filter(
-                      (x) =>
-                        x.accomplished ===
-                        `${nextDay.getFullYear()}-${
-                          nextDay.getMonth() + 1
-                        }-${nextDay.getDate()}`
-                    )
+                    .filter((x) => {
+                      if (nextDay.getMonth() < 10) {
+                        return (
+                          x.accomplished ===
+                          `${nextDay.getFullYear()}-0${
+                            nextDay.getMonth() + 1
+                          }-${nextDay.getDate()}`
+                        );
+                      } else {
+                        return (
+                          x.accomplished ===
+                          `${nextDay.getFullYear()}-${
+                            nextDay.getMonth() + 1
+                          }-${nextDay.getDate()}`
+                        );
+                      }
+                    })
                     .filter((x) => x.habit === item.id).length;
 
                   return (
