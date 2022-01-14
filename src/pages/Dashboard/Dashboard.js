@@ -132,7 +132,21 @@ const Dashboard = () => {
 
                   var filtered_days = days
                     .filter((x) => {
-                      if (nextDay.getMonth() < 10) {
+                      if (nextDay.getDate() < 10 && nextDay.getMonth() < 10) {
+                        return (
+                          x.accomplished ===
+                          `${nextDay.getFullYear()}-0${
+                            nextDay.getMonth() + 1
+                          }-0${nextDay.getDate()}`
+                        );
+                      } else if (nextDay.getDate() < 10) {
+                        return (
+                          x.accomplished ===
+                          `${nextDay.getFullYear()}-${
+                            nextDay.getMonth() + 1
+                          }-0${nextDay.getDate()}`
+                        );
+                      } else if (nextDay.getMonth() < 10) {
                         return (
                           x.accomplished ===
                           `${nextDay.getFullYear()}-0${
@@ -144,7 +158,7 @@ const Dashboard = () => {
                           x.accomplished ===
                           `${nextDay.getFullYear()}-${
                             nextDay.getMonth() + 1
-                          }-${nextDay.getDate()}`
+                          }-0${nextDay.getDate()}`
                         );
                       }
                     })
